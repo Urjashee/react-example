@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "name": "iPhone 14",
+        "image": "https://donate10.s3.amazonaws.com/test_image/iphone.jpg",
+        "price": "$1000"
+    },
+    {
+        "id": 2,
+        "name": "iPad",
+        "image": "https://donate10.s3.amazonaws.com/test_image/ipad.png",
+        "price": "$500"
+    },
+    {
+        "id": 3,
+        "name": "Macbook",
+        "image": "https://donate10.s3.amazonaws.com/test_image/macbook.webp",
+        "price": "$2000"
+    },
+    {
+        "id": 4,
+        "name": "Mackbook Pro",
+        "image": "https://donate10.s3.amazonaws.com/test_image/macbookpro.jpg",
+        "price": "$3000"
+    },
+    {
+        "id": 5,
+        "name": "Air Pods",
+        "image": "https://donate10.s3.amazonaws.com/test_image/airpods.jpg",
+        "price": "$200"
+    }
+]
