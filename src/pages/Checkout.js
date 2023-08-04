@@ -13,20 +13,22 @@ function Checkout() {
                 <h2>Checkout</h2>
                 <Row>
                     <div className='row'>
-                        <div className='col-4 mx-auto'><h3>Image</h3></div>
-                        <div className='col-4 mb-3 mx-auto'><h3>Name</h3></div>
-                        <div className='col-2 mb-3 mx-auto'><h3>Price</h3></div>
+                        <div className='col-2'></div>
+                        <div className='col-3'><h3><u>Image</u></h3></div>
+                        <div className='col-3'><h3><u>Name</u></h3></div>
+                        <div className='col-2'><h3><u>Price</u></h3></div>
                     </div>
                     {
                         items.map((item) => {
                             return (
                                 <div className='row'>
-                                    <div className='col-4'><img src={item.image}
-                                        className="mx-auto d-block mb-3"
+                                    <div className='col-2'></div>
+                                    <div className='col-3'><img src={item.image}
+                                        className="d-block mb-3"
                                         alt="App"
                                         width="30%" /></div>
-                                    <div className='col-4 mb-3 mx-auto'>{item.name}</div>
-                                    <div className='col-2 mb-3 mx-auto'>{item.price}</div>
+                                    <div className='col-3'>{item.name}</div>
+                                    <div className='col-2'>{item.price}</div>
                                 </div>
                             )
                         })
