@@ -13,7 +13,7 @@ function Product() {
         {product_data.map((item, index) => {
           return (
             <Col lg={4} md={4}>
-              <ProductCard product={item} />
+              <ProductCard image={item.image} name={item.name} price={item.price} />
             </Col>
           )
         })}
