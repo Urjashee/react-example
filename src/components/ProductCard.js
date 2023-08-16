@@ -16,7 +16,7 @@ function ProductCard({ image, name, price }) {
 
                 <Card.Text as="h3">
                     <div className='row'>
-                        <div className='col-10'>{price}</div>
+                        <div className='col-10'>${price}</div>
                         <div className='col-2'><AiFillShopping /></div>
                     </div>
                 </Card.Text>

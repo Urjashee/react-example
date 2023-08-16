@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useNavigate } from "react-router-dom";
 import AppLogo from "../assets/tree_logo.png";
+import axios from 'axios'
 
 function Login() {
   const emailRef = useRef();
@@ -10,13 +11,14 @@ function Login() {
   const history = useNavigate();
 
   const [fieldIsValid, setFieldIsValid] = useState({
-        isEmailValid: true,
-        isPasswordValid: true,
-    });
-    const [errorMessages, setErrorMessages] = useState({
-        emailErrorMessage: "",
-        passwordErrorMessage: "",
-    });
+    isEmailValid: true,
+    isPasswordValid: true,
+    isSubmit: false,
+  });
+  const [errorMessages, setErrorMessages] = useState({
+    emailErrorMessage: "",
+    passwordErrorMessage: "",
+  });
 
   // const submitHandler = (e) => {
   //   e.preventDefault()
@@ -25,79 +27,72 @@ function Login() {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    const enteredEmail = emailRef.current.value;
-    const enteredPassword = passwordRef.current.value;
-    console.log(fieldIsValid.isEmailValid);
-    console.log(fieldIsValid.isPasswordValid);
-
-    if (!enteredEmail) {
-        setFieldIsValid({
-            ...fieldIsValid,
-            isEmailValid: false,
-        });
-        setErrorMessages({
-            ...errorMessages,
-            emailErrorMessage: "Please enter an email",
-        });
-        return;
-    } else if (
-        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(enteredEmail)
-    ) {
-        setFieldIsValid({
-            ...fieldIsValid,
-            isEmailValid: false
-        });
-        setErrorMessages({
-            ...errorMessages,
-            emailErrorMessage: "Please enter a valid email"
-        });
-        return;
-    } else {
-        setFieldIsValid({
-            ...fieldIsValid,
-            isEmailValid: true
-        });
+    const config = {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json'
+      }
     }
+    const { data } = axios.post(
+      "http://localhost:3002/api/login",
+      { 'email': emailRef.current.value, 'password': passwordRef.current.value },
+      config)
+      .then((response) => {
+        localStorage.setItem('access_token', JSON.stringify(response.data.data))
+        window.location.href = '/';
+      })
+      .catch((error) => console.log(error));
+  };
 
-    if (!enteredPassword) {
-        setFieldIsValid({
-            ...fieldIsValid,
-            isPasswordValid: false,
-        });
-        setErrorMessages({
-            ...errorMessages,
-            passwordErrorMessage: "Please enter a valid password",
-        });
-        return;
-    } else if (
-        !/^(?=.*[0-9])[a-zA-Z0-9]{8,15}$/.test(enteredPassword)
-    ) {
-        setFieldIsValid({
-            ...fieldIsValid,
-            isPasswordValid: false,
-        });
-        setErrorMessages({
-            ...errorMessages,
-            passwordErrorMessage: "Password must be 8 character long with a mix of alphanumeric characters",
-        });
-        return;
+  const emailKeyPress = (event) => {
+    event.preventDefault();
+    // const enteredEmail = emailRef.current.value;
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(emailRef.current.value)) {
+      setFieldIsValid({
+        ...fieldIsValid,
+        isEmailValid: false
+      });
+      setErrorMessages({
+        ...errorMessages,
+        emailErrorMessage: "Please enter a valid email"
+      });
+      return;
     } else {
-        //initiate the http request
-        history('/product')
-        setFieldIsValid({
-            ...fieldIsValid,
-            isPasswordValid: true,
-        });
-    }
-
-    setErrorMessages({
+      setFieldIsValid({
+        ...fieldIsValid,
+        isEmailValid: true,
+        isSubmit: true
+      });
+      setErrorMessages({
+        ...errorMessages,
         emailErrorMessage: "",
+      });
+    }
+  }
+  const passwordKeyPress = (event) => {
+    event.preventDefault();
+    if (!/^(?=.*[0-9])[a-zA-Z0-9]{8,15}$/.test(passwordRef.current.value)) {
+      setFieldIsValid({
+        ...fieldIsValid,
+        isPasswordValid: false,
+      });
+      setErrorMessages({
+        ...errorMessages,
+        passwordErrorMessage: "Password must be 8-15 characters long",
+      });
+      return;
+    } else {
+      setFieldIsValid({
+        ...fieldIsValid,
+        isPasswordValid: true,
+        isSubmit: true
+      });
+      setErrorMessages({
+        ...errorMessages,
         passwordErrorMessage: "",
-    });
-    //navigate('/sign-in');
-    //call API here
-    //props.onAddToCart(enteredAmountNumber);
-};
+      });
+    }
+  }
 
   return (
     <div className="App login-body">
@@ -112,7 +107,7 @@ function Login() {
           <p className="text-center font-75perc mb-4">
             Enter your Username & Password to continue with login.
           </p>
-          <Form onSubmit={submitHandler}>
+          <Form>
 
             <Form.Group className='row-spacing'>
               <Form.Label>Email Address</Form.Label>
@@ -120,11 +115,12 @@ function Login() {
                 ref={emailRef}
                 type='email'
                 placeholder='Enter Email'
+                onChange={emailKeyPress}
               >
               </Form.Control>
               {!fieldIsValid.isEmailValid && <div className="error-input">
-                            <p className="d-inline ms-1">{errorMessages.emailErrorMessage}</p>
-                        </div>}
+                <p className="d-inline ms-1">{errorMessages.emailErrorMessage}</p>
+              </div>}
             </Form.Group>
 
 
@@ -134,15 +130,25 @@ function Login() {
                 ref={passwordRef}
                 type='password'
                 placeholder='Enter Password'
+                onChange={passwordKeyPress}
               >
               </Form.Control>
               {!fieldIsValid.isPasswordValid && <div className="error-input">
-                            <p className="d-inline ms-1">{errorMessages.passwordErrorMessage}</p></div>}
+                <p className="d-inline ms-1">{errorMessages.passwordErrorMessage}</p></div>}
             </Form.Group>
 
-            <Button type='submit' variant='primary' className='row-spacing login-button'>
-              Sign In
-            </Button>
+            {(!fieldIsValid.isEmailValid || !fieldIsValid.isSubmit ||
+              !fieldIsValid.isPasswordValid) &&
+              <Button className='row-spacing login-button'>
+                Sign In
+              </Button>
+            }
+            {(fieldIsValid.isEmailValid && fieldIsValid.isSubmit &&
+              fieldIsValid.isPasswordValid) &&
+              <Button type='submit' className='row-spacing login-button' onClick={submitHandler}>
+                Sign In
+              </Button>
+            }
           </Form>
         </div>
       </div>
