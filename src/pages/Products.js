@@ -21,7 +21,7 @@ function Product() {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem('access_token'))
     decoded = jwt_decode(localStorage.getItem('access_token'))
-    console.log(decoded.resultCompare.first_name)
+    // console.log(decoded.resultCompare.first_name)
     const config = {
       headers: {
         'Access-Control-Allow-Origin': '*',

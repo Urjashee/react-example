@@ -137,3 +137,7 @@ html,
   margin-top: 10px;
   cursor: pointer;
 }
+.col-design {
+  margin: 15px 15px;
+  border: 1px solid black;
+}
