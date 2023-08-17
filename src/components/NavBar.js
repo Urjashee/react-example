@@ -3,10 +3,19 @@ import { Navbar, Nav, Container, Row, NavDropdown } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { BsFillCartFill } from 'react-icons/bs'
 import cartContext from './CartContext'
+import { useNavigate } from "react-router-dom";
 
 function NavBar() {
+    const history = useNavigate();
 
     const { items } = useContext(cartContext)
+    const logout = () => {
+        localStorage.removeItem("access_token")
+        history('/login')
+    }
+    const profile = () => {
+        history('/profile')
+    }
 
     return (
         <header>
@@ -20,9 +29,19 @@ function NavBar() {
                     <Navbar.Collapse id="basic-navbar-nav">
 
                         <Nav className="ms-auto">
-
+                            <NavDropdown title='Menu'>
+                                <NavDropdown.Item>
+                                    Orders
+                                </NavDropdown.Item>
+                                <NavDropdown.Item onClick={profile}>
+                                    Profile
+                                </NavDropdown.Item>
+                                <NavDropdown.Item onClick={logout}>
+                                    Logout
+                                </NavDropdown.Item>
+                            </NavDropdown>
                             <LinkContainer to='/cart'>
-                                <Nav.Link ><BsFillCartFill/>
+                                <Nav.Link ><BsFillCartFill />
                                     <span>
                                         {items.length}
                                     </span>

@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins');
+
 body {
   margin: 0;
   font-family: "Poppins", sans-serif;
@@ -33,7 +34,7 @@ code {
   --danger: #e74a3b;
   --light: #f8f9fc;
   --dark: #5a5c69;
-  --dark-gray:#424242;
+  --dark-gray: #424242;
   --main-gray: #F4F4F4;
   --primary-color: #B50801;
   --secondary-color: #797979;
@@ -62,6 +63,7 @@ code {
   font-weight: 400;
   font-family: "Poppins", sans-serif;
 }
+
 body,
 html,
 .App,
@@ -77,6 +79,7 @@ html,
   justify-content: center;
   flex-direction: column;
   text-align: left;
+  overflow-y: scroll;
 }
 
 .auth-inner {
@@ -88,10 +91,11 @@ html,
   /* Note: backdrop-filter has minimal browser support */
   border-radius: 10px;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
-  padding: 40px;
+  padding: 100px 40px 0 40px;
 
   transition: all 0.3s;
 }
+
 .auth-wrapper .form-control:focus {
 
   box-shadow: none;
@@ -103,21 +107,33 @@ html,
   line-height: 1;
   padding-bottom: 8px;
 }
+
 .row-spacing {
   padding: 10px 0;
 }
+
 .login-button {
   padding: 10px;
   width: 100%;
   color: beige;
 }
+
 .error-input {
   margin-top: 0.2rem;
   margin-left: 1rem;
   font-size: 80%;
   color: #EC2D2D;
 }
+
 .card-image {
-  width: 150px!important;
+  width: 150px !important;
   height: 230px;
+}
+
+.sign-up {
+  text-align: center;
+  align-items: center;
+  text-decoration-line: underline;
+  margin-top: 10px;
+  cursor: pointer;
 }

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useNavigate } from "react-router-dom";
 import AppLogo from "../assets/tree_logo.png";
@@ -20,10 +20,10 @@ function Login() {
     passwordErrorMessage: "",
   });
 
-  // const submitHandler = (e) => {
-  //   e.preventDefault()
-  //   history('/')
-  // }
+  const sign_up = (e) => {
+    e.preventDefault()
+    history('/sign-up')
+  }
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -150,6 +150,9 @@ function Login() {
               </Button>
             }
           </Form>
+          <div className="d-grid mt-3 margin-top">
+            <p className='sign-up' onClick={sign_up}>Sign-up</p>
+          </div>
         </div>
       </div>
     </div>

@@ -5,7 +5,8 @@ import cartContext from '../components/CartContext';
 
 function Checkout() {
     const { items } = useContext(cartContext)
-    console.log(items)
+    const sum = items.reduce((acc, current) => acc + current.price, 0);
+    console.log(sum)
     return (
         <div className="">
             <Row>
@@ -33,6 +34,12 @@ function Checkout() {
                             )
                         })
                     }
+                    <div className='row'>
+                        <div className='col-2'></div>
+                        <div className='col-3'><h3><u></u></h3></div>
+                        <div className='col-3'><h3><u>Total: </u></h3></div>
+                        <div className='col-2'><h3><u>{sum}</u></h3></div>
+                    </div>
                 </Row>
             </Row>
         </div>
