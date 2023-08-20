@@ -3,13 +3,43 @@ import NavBar from '../components/NavBar';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import cartContext from '../components/CartContext';
 import jwt_decode from "jwt-decode";
+import axios from 'axios'
+import { useNavigate } from "react-router-dom";
 
 function Checkout() {
+    const history = useNavigate();
     const addressRef = useRef()
     const { items } = useContext(cartContext)
     const sum = items.reduce((acc, current) => acc + current.price, 0);
     console.log(sum)
     let decoded = jwt_decode(localStorage.getItem('access_token'))
+
+    const submitHandler = (event) => {
+        event.preventDefault();
+        const token = JSON.parse(localStorage.getItem('access_token'))
+        decoded = jwt_decode(localStorage.getItem('access_token'))
+        const config = {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const { data } = axios.post(
+            "http://localhost:3002/api/orders",
+            {
+                "address": addressRef.current.value,
+                "user_id": decoded.result.user_id,
+                "amount": (sum * 0.18) + sum,
+                "products":items
+            },
+            config)
+            .then((response) => {
+                // window.location.href = '/';
+                history('/')
+            })
+            .catch((error) => console.log(error));
+    }
 
     return (
         <div className="">
@@ -76,7 +106,7 @@ function Checkout() {
                             </div>
                         </Row>
                         <Row>
-                        <Button className='row-spacing login-button'>
+                        <Button className='row-spacing login-button' onClick={submitHandler}>
                             Submit
                         </Button>
                         </Row>

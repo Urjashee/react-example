@@ -16,6 +16,9 @@ function NavBar() {
     const profile = () => {
         history('/profile')
     }
+    const orders = () => {
+        history('/order-details')
+    }
 
     return (
         <header>
@@ -30,7 +33,7 @@ function NavBar() {
 
                         <Nav className="ms-auto">
                             <NavDropdown title='Menu'>
-                                <NavDropdown.Item>
+                                <NavDropdown.Item onClick={orders}>
                                     Orders
                                 </NavDropdown.Item>
                                 <NavDropdown.Item onClick={profile}>
